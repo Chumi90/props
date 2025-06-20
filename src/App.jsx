@@ -25,12 +25,19 @@ const App = () => {
     setTasks(tasks.filter(task => task.id !== taskId));
   };
 
+  const toggleTask=(taskId)=>{
+    setTasks(tasks.map(tasks=>{
+      tasks.id === taskId? {...tasks, completed: !tasks.completed}: tasks
+  }))
+
+  }
+ 
 
   return (
     <>
     <h1>Listado de Tareas</h1>
     <form onSubmit={(e)=>{
-        e.preventDefault()
+        e.preventDefault();
         addTask();
         }
       }>
@@ -46,7 +53,20 @@ const App = () => {
     <div>
         <ol>
           {tasks.map((task)=>(
-              <li key={task.id}>{task.text}<button onClick={() => deleteTask(task.id)}>Eliminar</button></li>
+              <li 
+                key={task.id} 
+                >
+                <p 
+                  style={{textDecoration:task.completed ? 'line-through' : 'none'}} 
+                  onClick={() =>toggleTask(task.id)}>
+                  {task.text}
+                </p>
+                <button 
+                  onClick={() => deleteTask(task.id)}
+                >
+                  Eliminar
+                </button>
+              </li>
             ))}
         </ol> 
     </div>
